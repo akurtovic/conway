@@ -7,6 +7,7 @@ if (canvas.getContext) {
 }
 var deadColor = '#BFDFFF';
 var aliveColor = '#869CB2';
+var loop;
 
 function Shape(left, top, width, height, index) {
 	this.left = left;
@@ -25,7 +26,16 @@ function Draw(shape){
 }
 
 function run(){
-	window.setInterval(redrawBoard, 100);
+	loop = window.setInterval(redrawBoard, 100);
+}
+
+function pause() {
+	clearInterval(loop);
+}
+
+function reset() {
+	pause();
+	initBoard();
 }
 
 function nextStep(){
@@ -33,6 +43,7 @@ function nextStep(){
 }
 
 function initBoard() {
+	shapes = [];
 	for (var i = 0, j = 0, k = 0; k < 1200; k++) {
 		var thisShape = new Shape(i, j, 14, 14, k);
 		shapes.push(thisShape);
@@ -40,7 +51,7 @@ function initBoard() {
 		if (i % 600 === 0) {
 			i = 0;
 			j += 15;
-		} 
+		}
 		Draw(shapes[k]);
 	}
 }
