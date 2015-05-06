@@ -1,3 +1,4 @@
+// Initialize main variables 
 var grid = [];
 var canvas = document.getElementById('canvas'),
     canvasLeft = canvas.offsetLeft,
@@ -8,7 +9,16 @@ if (canvas.getContext) {
 var deadColor = '#BFDFFF';
 var aliveColor = '#869CB2';
 var loop;
+var delayTime = 50;
 
+// Grid and Cell Dimensions
+var cellSize = 10;
+var gridWidth = 1000;
+var cellsPerRow = gridWidth / cellSize;
+var numberOfCells = Math.pow(cellsPerRow, 2);
+var cellInnerDimension = cellSize-1;
+
+// Constructor function for cells
 function Cell(left, top, width, height, index) {
 	this.left = left;
 	this.top = top;
@@ -26,7 +36,7 @@ function Draw(shape){
 }
 
 function run(){
-	loop = window.setInterval(redrawBoard, 100);
+	loop = window.setInterval(redrawBoard, delayTime);
 }
 
 function pause() {
@@ -43,13 +53,13 @@ function randomize() {
 }
 
 function nextStep(){
-	window.setTimeout(redrawBoard, 300);
+	window.setTimeout(redrawBoard, delayTime*3);
 }
 
 function initBoard(randomize) {
 	grid = [];
-	for (var i = 0, j = 0, k = 0; k < 1200; k++) {
-		var thisShape = new Cell(i, j, 14, 14, k);
+	for (var xPoint = 0, yPoint = 0, index = 0; index < numberOfCells; index++) {
+		var thisShape = new Cell(xPoint, yPoint, cellInnerDimension, cellInnerDimension, index);
 		if (randomize) {
 			var randNum = Math.floor(Math.random()*15);
 			if (randNum <= 2) {
@@ -58,19 +68,18 @@ function initBoard(randomize) {
 			}
 		}
 		grid.push(thisShape);
-		i += 15;
-		if (i % 600 === 0) {
-			i = 0;
-			j += 15;
+		xPoint += cellSize;
+		if (xPoint % gridWidth === 0) {
+			xPoint = 0;
+			yPoint += cellSize;
 		}
-		Draw(grid[k]);
+		Draw(grid[index]);
 	}
 }
 
-initBoard();
-
 function calcNeighbors() {
-	var neighbors = [-41,-40,-39,-1,1,39,40,41];
+	var o = cellsPerRow;
+	var neighbors = [-(o+1),-o,-(o-1),-1,1,o-1,o,o+1];
 	var aliveNeighbors = 0;
 	grid.forEach(function(element) {
 		element.aliveNeighbors = 0;
@@ -97,7 +106,7 @@ function death(element) {
 
 function redrawBoard(board) {
 	calcNeighbors();
-	for (var k = 0; k < 1200; k++) {
+	for (var k = 0; k < numberOfCells; k++) {
 		var element = grid[k];
 		var aliveNeighbors = element.aliveNeighbors;
 
@@ -141,3 +150,6 @@ canvas.addEventListener('click', function(event) {
     });
 
 }, false);
+
+// Initialize board when the page loads
+initBoard();
