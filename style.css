@@ -1,0 +1,17 @@
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+}
+
+.btn-group {
+  margin: 20px;
+}
+
+#canvas {
+  margin-top: 80px;
+  margin-left: 20px;
+}
