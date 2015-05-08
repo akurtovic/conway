@@ -2,21 +2,25 @@
 <html>
 <head>
 	<title>Conway's Game of Life in JS+Canvas</title>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <<script src="app.js"></script>
 </head>
-<body>
-<div class="menu">
+<body ng-app="conway">
+<div class="menu" ng-controller="mainCtrl">
   <div class="btn-group" role="group">
-    <button type="button" class="btn btn-success" onClick="run()">Run <span class="glyphicon glyphicon-play"></span></button>
-    <button type="button" class="btn btn-default" onClick="nextStep()">Next Step <span class="glyphicon glyphicon-step-forward"></span></button>
-    <button type="button" class="btn btn-warning" onClick="pause()">Pause <span class="glyphicon glyphicon-pause"></span></button>
-    <button type="button" class="btn btn-danger" onClick="reset()">Reset <span class="glyphicon glyphicon-off"></span></button>
-    <button type="button" class="btn btn-info" onClick="randomize()">Randomize <span class="glyphicon glyphicon-th"></span></button>
+    <button type="button" class="btn btn-success" ng-click="conway.run()">Run <span class="glyphicon glyphicon-play"></span></button>
+    <button type="button" class="btn btn-default" ng-click="conway.nextStep()">Next Step <span class="glyphicon glyphicon-step-forward"></span></button>
+    <button type="button" class="btn btn-warning" ng-click="conway.pause()">Pause <span class="glyphicon glyphicon-pause"></span></button>
+    <button type="button" class="btn btn-danger" ng-click="conway.reset()">Reset <span class="glyphicon glyphicon-off"></span></button>
+    <button type="button" class="btn btn-info" ng-click="conway.randomize()">Randomize <span class="glyphicon glyphicon-th"></span></button>
   </div>
+
+  <div class="settings"><span class="glyphicon glyphicon-cog rotate"></span></div>
 </div>
 
 <canvas id="canvas"  width="1200" height="1200"></canvas>
