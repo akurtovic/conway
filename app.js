@@ -1,6 +1,48 @@
 var app = angular.module('conway', []);
 app.controller('mainCtrl', ['$scope', function ($scope) {
 
+  $scope.cellSizes = [5,10,20,25,50];
+  $scope.speeds = [50,100,200,300,400,500];
+  $scope.sizeIndex = 1;
+  $scope.speedIndex = 1;
+  $scope.cellSize = $scope.cellSizes[$scope.sizeIndex];
+  $scope.speed = $scope.speeds[$scope.speedIndex];
+
+  $scope.decreaseSpeed = function() {
+    if($scope.speedIndex != 0) {
+      $scope.speedIndex -= 1;
+      console.log("speedIndex is now ",$scope.speedIndex);
+    }
+    $scope.speed = $scope.speeds[$scope.speedIndex];
+  }
+
+  $scope.increaseSpeed = function() {
+    if($scope.speedIndex != 5) {
+      $scope.speedIndex += 1;
+    }
+    $scope.speed = $scope.speeds[$scope.speedIndex];
+  }
+
+  $scope.decreaseSize = function() {
+    if($scope.sizeIndex != 0) {
+      $scope.sizeIndex -= 1;
+      console.log("sizeIndex is now ",$scope.sizeIndex);
+    }
+    console.log($scope.cellSize);
+    $scope.cellSize = $scope.cellSizes[$scope.sizeIndex];
+    $scope.conway.reset();
+  }
+
+  $scope.increaseSize = function() {
+    if($scope.sizeIndex != 4) {
+      $scope.sizeIndex += 1;
+      console.log("sizeIndex is now ",$scope.sizeIndex);
+    }
+    console.log($scope.cellSize);
+    $scope.cellSize = $scope.cellSizes[$scope.sizeIndex]; 
+    $scope.conway.reset();
+  }
+
   
   $scope.conway = (function () {
   // Initialize main private variables 
@@ -11,13 +53,13 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
   }
-  var deadColor = '#BFDFFF';
-  var aliveColor = '#869CB2';
+  var deadColor = '#BCC3C1';
+  var aliveColor = '#5465E5';
   var loop;
-  var delayTime = 50;
+  var delayTime = $scope.speed;
 
   // Grid and Cell Dimensions
-  var cellSize = 10;
+  var cellSize = $scope.cellSize;
   var gridWidth = 1000;
   var cellsPerRow = gridWidth / cellSize;
   var numberOfCells = Math.pow(cellsPerRow, 2);
