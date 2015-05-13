@@ -15,27 +15,17 @@
 <body ng-app="conway">
 <div class="menu" ng-controller="mainCtrl">
   <div class="title">Conway's Game of Life</div>
-  <div class="btn-group" role="group">
-    <button type="button" class="btn btn-success" ng-click="conway.run()">Run <span class="glyphicon glyphicon-play"></span></button>
-    <button type="button" class="btn btn-default" ng-click="conway.nextStep()">Next Step <span class="glyphicon glyphicon-step-forward"></span></button>
-    <button type="button" class="btn btn-warning" ng-click="conway.pause()">Pause <span class="glyphicon glyphicon-pause"></span></button>
-    <button type="button" class="btn btn-danger" ng-click="conway.reset()">Reset <span class="glyphicon glyphicon-off"></span></button>
-    <button type="button" class="btn btn-info" ng-click="conway.randomize()">Randomize <span class="glyphicon glyphicon-th"></span></button>
+  <div class="controls">
+    <span ng-click="conway.run()" class="glyphicon glyphicon-play control"></span>
+    <span ng-click="conway.nextStep()" class="glyphicon glyphicon-step-forward control"></span>
+    <span ng-click="conway.pause()" class="glyphicon glyphicon-pause control"></span>
+    <span ng-click="conway.reset()" class="glyphicon glyphicon-off control"></span>
+    <span ng-click="conway.randomize()" class="glyphicon glyphicon-th control"></span>
   </div>
-  <div class="settings">
-    <span class="cog glyphicon glyphicon-cog rotate"></span>
-    <div class="cell-size">
-      <span ng-click="decreaseSize()" class="glyphicon glyphicon-minus"></span>Cell Size<span ng-click="increaseSize()" class="glyphicon glyphicon-plus"></span>
-    </div>
-    <div class="speec">
-      <span ng-click="decreaseSpeec()" class="glyphicon glyphicon-minus"></span>Speed<span ng-click="increaseSpeed()" class="glyphicon glyphicon-plus"></span>
-    </div>
-  </div>
-
 </div>
 
 <div class="canvas-container">
-  <canvas id="canvas"  width="1200" height="1200"></canvas>
+  <canvas id="canvas"  width="1000" height="1000"></canvas>
 </div>
 
 </body>

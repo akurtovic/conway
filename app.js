@@ -1,49 +1,14 @@
 var app = angular.module('conway', []);
 app.controller('mainCtrl', ['$scope', function ($scope) {
 
-  $scope.cellSizes = [5,10,20,25,50];
-  $scope.speeds = [50,100,200,300,400,500];
-  $scope.sizeIndex = 1;
-  $scope.speedIndex = 1;
-  $scope.cellSize = $scope.cellSizes[$scope.sizeIndex];
-  $scope.speed = $scope.speeds[$scope.speedIndex];
+  $scope.speed = 100;
+  $scope.cellSize = 10;
 
-  $scope.decreaseSpeed = function() {
-    if($scope.speedIndex != 0) {
-      $scope.speedIndex -= 1;
-      console.log("speedIndex is now ",$scope.speedIndex);
-    }
-    $scope.speed = $scope.speeds[$scope.speedIndex];
+  // TODO: Add ability to change refresh speed
+  $scope.changeSpeed = function() {
+    $scope.speed += 100;
   }
 
-  $scope.increaseSpeed = function() {
-    if($scope.speedIndex != 5) {
-      $scope.speedIndex += 1;
-    }
-    $scope.speed = $scope.speeds[$scope.speedIndex];
-  }
-
-  $scope.decreaseSize = function() {
-    if($scope.sizeIndex != 0) {
-      $scope.sizeIndex -= 1;
-      console.log("sizeIndex is now ",$scope.sizeIndex);
-    }
-    console.log($scope.cellSize);
-    $scope.cellSize = $scope.cellSizes[$scope.sizeIndex];
-    $scope.conway.reset();
-  }
-
-  $scope.increaseSize = function() {
-    if($scope.sizeIndex != 4) {
-      $scope.sizeIndex += 1;
-      console.log("sizeIndex is now ",$scope.sizeIndex);
-    }
-    console.log($scope.cellSize);
-    $scope.cellSize = $scope.cellSizes[$scope.sizeIndex]; 
-    $scope.conway.reset();
-  }
-
-  
   $scope.conway = (function () {
   // Initialize main private variables 
   var grid = [];
@@ -56,14 +21,12 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   var deadColor = '#BCC3C1';
   var aliveColor = '#5465E5';
   var loop;
-  var delayTime = $scope.speed;
 
   // Grid and Cell Dimensions
-  var cellSize = $scope.cellSize;
   var gridWidth = 1000;
-  var cellsPerRow = gridWidth / cellSize;
+  var cellsPerRow = gridWidth / $scope.cellSize;
   var numberOfCells = Math.pow(cellsPerRow, 2);
-  var cellInnerDimension = cellSize-1;
+  var cellInnerDimension = $scope.cellSize-1;
 
   // Constructor function for cells
   function Cell(left, top, width, height, index) {
@@ -83,7 +46,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   }
 
   function run(){
-    loop = window.setInterval(redrawBoard, delayTime);
+    loop = window.setInterval(redrawBoard, $scope.speed);
   }
 
   function pause() {
@@ -96,11 +59,12 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   }
 
   function randomize() {
+    console.log("HELLO");
     initBoard(true);
   }
 
   function nextStep(){
-    window.setTimeout(redrawBoard, delayTime*3);
+    window.setTimeout(redrawBoard, $scope.speed*3);
   }
 
   function initBoard(randomize) {
@@ -115,10 +79,10 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         }
       }
       grid.push(thisShape);
-      xPoint += cellSize;
+      xPoint += $scope.cellSize;
       if (xPoint % gridWidth === 0) {
         xPoint = 0;
-        yPoint += cellSize;
+        yPoint += $scope.cellSize;
       }
       Draw(grid[index]);
     }

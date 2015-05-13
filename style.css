@@ -21,50 +21,24 @@
   color: #32282B;
 }
 
-.menu .btn-group {
-  margin-top: 1.5em;
-  margin-left: 2em;
-  float: left;
-}
-
-.menu .settings {
+.menu .controls {
   width: 40%;
   height: 12em;
-  background-color: #587B7F;
   float: right;
   position: absolute;
   top: 0;
   right: 0;
 }
 
-.menu .settings .cog {
-  position: relative;
-  margin-left: 40%;
-  margin-top: 2%;
-  font-size: 3em;
-  color: #E8F7EE;
+.menu .controls .control {
+  font-size: 1.5em;
+  margin-top: 1.5em;
+  margin-left: 2em;
+  float: left;
 }
 
-.menu .settings .cog:hover {
-  color: #32282B;
-}
-
-.menu .settings div {
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  width: 250px;
-}
-
-.menu .settings div span {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  font-size: 2em;
-  color: #E8F7EE;
-}
-
-.menu .settings div span:hover {
-  color: #32282B;
+.menu .controls .control:hover {
+  color: #fff;
 }
 
 body {
