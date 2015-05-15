@@ -2,12 +2,12 @@ var app = angular.module('conway', []);
 app.controller('mainCtrl', ['$scope', function ($scope) {
 
   $scope.speed = 100;
-  $scope.cellSize = 10;
+  $scope.cellSize = 20;
 
   // TODO: Add ability to change refresh speed
   $scope.changeSpeed = function() {
     $scope.speed += 100;
-  }
+  };
 
   $scope.conway = (function () {
   // Initialize main private variables 
