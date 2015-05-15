@@ -60,9 +60,14 @@ body {
   background-color: #E8F7EE;
 }
 
+.stats {
+  margin-top: 20px;
+  margin-left: 400px;
+}
+
 .canvas-container {
   width: 60%;
-  margin-top: 2em;
+  margin-top: 2px;
   margin-right: auto;
   margin-left: 400px;
   text-align: center;

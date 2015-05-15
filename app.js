@@ -2,7 +2,9 @@ var app = angular.module('conway', []);
 app.controller('mainCtrl', ['$scope', function ($scope) {
 
   $scope.speed = 100;
-  $scope.cellSize = 20;
+  $scope.cellSize = 10;
+  $scope.aliveCells = 0;
+  $scope.generations = 0;
 
   // TODO: Add ability to change refresh speed
   $scope.changeSpeed = function() {
@@ -54,6 +56,8 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   }
 
   function reset() {
+    $scope.generations = 0;
+    $scope.aliveCells = 0;
     pause();
     initBoard();
   }
@@ -106,17 +110,21 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   }
 
   function birth(element) {
+    $scope.aliveCells += 1;
     element.alive = true;
     element.fillColor = aliveColor;
   }
 
   function death(element) {
+    $scope.aliveCells -= 1;
     element.alive = false;
     element.fillColor = deadColor;
   }
 
   function redrawBoard(board) {
     calcNeighbors();
+    $scope.aliveCells = 0;
+    $scope.generations += 1;
     for (var k = 0; k < numberOfCells; k++) {
       var element = grid[k];
       var aliveNeighbors = element.aliveNeighbors;
@@ -135,6 +143,8 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         }
       }
     }
+
+    $scope.$apply();
 
     grid.forEach(function(x) {
       Draw(x);
@@ -167,7 +177,6 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
     run: run,
     pause: pause,
     nextStep: nextStep,
-    pause: pause,
     reset: reset,
     randomize: randomize,
     initBoard: initBoard
