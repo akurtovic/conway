@@ -2,7 +2,7 @@ var app = angular.module('conway', []);
 app.controller('mainCtrl', ['$scope', function ($scope) {
 
   $scope.speed = 100;
-  $scope.cellSize = 10;
+  $scope.cellSize = 15;
   $scope.aliveCells = 0;
   $scope.generations = 0;
 
@@ -17,15 +17,16 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   var canvas = document.getElementById('canvas'),
       canvasLeft = canvas.offsetLeft,
       canvasTop = canvas.offsetTop;
+
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
   }
-  var deadColor = '#BCC3C1';
+  var deadColor = '#9899A6';
   var aliveColor = '#5465E5';
   var loop;
 
   // Grid and Cell Dimensions
-  var gridWidth = 1000;
+  var gridWidth = 1200;
   var cellsPerRow = gridWidth / $scope.cellSize;
   var numberOfCells = Math.pow(cellsPerRow, 2);
   var cellInnerDimension = $scope.cellSize-1;
@@ -42,12 +43,12 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
     this.aliveNeighbors = 0;
   }
 
-  function Draw(shape){
+  function Draw(shape) {
     ctx.fillStyle = shape.fillColor;
     ctx.fillRect(shape.left, shape.top, shape.width, shape.height);
   }
 
-  function run(){
+  function run() {
     loop = window.setInterval(redrawBoard, $scope.speed);
   }
 
@@ -63,12 +64,11 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   }
 
   function randomize() {
-    console.log("HELLO");
     initBoard(true);
   }
 
   function nextStep(){
-    window.setTimeout(redrawBoard, $scope.speed*3);
+    window.setTimeout(redrawBoard, 300);
   }
 
   function initBoard(randomize) {
@@ -146,8 +146,8 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
 
     $scope.$apply();
 
-    grid.forEach(function(x) {
-      Draw(x);
+    grid.forEach(function(cell) {
+      Draw(cell);
     })
   }
 
@@ -172,7 +172,6 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
 
   }, false);
 
-  // Returning public methods
   return {
     run: run,
     pause: pause,

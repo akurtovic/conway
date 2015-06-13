@@ -14,24 +14,23 @@
 </head>
 <body ng-app="conway">
 <div ng-controller="mainCtrl">
-  <div class="menu" >
-    <div class="title">Conway's Game of Life</div>
+  <div class="menu">
   </div>
 
   <div class="controls">
-    <div class="control-container">
+    <div class="control-container expand">
       <span ng-click="conway.run()" class="glyphicon glyphicon-play control"></span>
     </div>
-    <div class="control-container">
+    <div class="control-container expand">
       <span ng-click="conway.nextStep()" class="glyphicon glyphicon-step-forward control"></span>
     </div>
-    <div class="control-container">
+    <div class="control-container expand">
       <span ng-click="conway.pause()" class="glyphicon glyphicon-pause control"></span>
     </div>
-    <div class="control-container">
+    <div class="control-container expand">
       <span ng-click="conway.reset()" class="glyphicon glyphicon-off control"></span>
     </div>
-    <div class="control-container">
+    <div class="control-container expand">
       <span ng-click="conway.randomize()" class="glyphicon glyphicon-th control"></span>
     </div>
   </div>
@@ -41,7 +40,7 @@
   </div>
 
   <div class="canvas-container">
-    <canvas id="canvas"  width="1000" height="1000"></canvas>
+    <canvas id="canvas"  width="1200" height="1200"></canvas>
   </div>
 
 </div>
