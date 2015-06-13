@@ -5,6 +5,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   $scope.cellSize = 15;
   $scope.aliveCells = 0;
   $scope.generations = 0;
+  $scope.status = 'paused';
 
   // TODO: Add ability to change refresh speed
   $scope.changeSpeed = function() {
@@ -49,11 +50,13 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   }
 
   function run() {
-    loop = window.setInterval(redrawBoard, $scope.speed);
+    $scope.status === 'paused' ? loop = window.setInterval(redrawBoard, $scope.speed) : null;
+    $scope.status = 'running';
   }
 
   function pause() {
     clearInterval(loop);
+    $scope.status = 'paused';
   }
 
   function reset() {
@@ -68,6 +71,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   }
 
   function nextStep(){
+    pause();
     window.setTimeout(redrawBoard, 300);
   }
 
