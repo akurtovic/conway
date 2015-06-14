@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 65px;
+  width: 70px;
   height: 100%;
   background-color: #634B66;
   overflow: hidden;
@@ -23,15 +23,15 @@
 }
 
 .controls {
-  width: 80px;
+  width: 120px;
   position: fixed;
-  overflow: hidden;
+  overflow: visible;
   z-index: 1000;
 }
 
 .controls .control-container {
-  width: 3em;
-  height: 4em;
+  width: 70px;
+  height: 55px;
   background-color: #634B66;
   clear: both;
 }
@@ -43,11 +43,28 @@
 .controls .control {
   color: #18020C;
   font-size: 2em;
-  margin: 0.5em;
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .controls .control:hover {
   color: #fff;
+}
+
+.controls .control-label {
+  font-size: 10px;
+  clear: both;
+  display: inline;
+  margin-left: -20px;
+  padding-bottom: 20px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  overflow: visible;
 }
 
 body {
@@ -86,6 +103,7 @@ body {
   overflow: hidden;
 }  
  
-.expand:hover {  
-  width: 6em;
+.expand:hover {
+  color: #fff !important;
+  width: 120px;
 }

@@ -19,24 +19,35 @@
 
   <div class="controls">
     <div class="control-container expand">
-      <span ng-click="conway.run()" class="glyphicon glyphicon-play control"></span>
+      <div ng-click="conway.run()" class="glyphicon glyphicon-play control">
+        <span class="control-label">Play</span> 
+      </div>
+      
     </div>
     <div class="control-container expand">
-      <span ng-click="conway.nextStep()" class="glyphicon glyphicon-step-forward control"></span>
+      <div ng-click="conway.nextStep()" class="glyphicon glyphicon-step-forward control">
+        <span class="control-label">Step</span>
+      </div>
     </div>
     <div class="control-container expand">
-      <span ng-click="conway.pause()" class="glyphicon glyphicon-pause control"></span>
+      <div ng-click="conway.pause()" class="glyphicon glyphicon-pause control">
+        <span class="control-label">Pause</span>        
+      </div>
     </div>
     <div class="control-container expand">
-      <span ng-click="conway.reset()" class="glyphicon glyphicon-off control"></span>
+      <div ng-click="conway.reset()" class="glyphicon glyphicon-off control">
+        <span class="control-label">Reset</span>
+      </div>
     </div>
     <div class="control-container expand">
-      <span ng-click="conway.randomize()" class="glyphicon glyphicon-th control"></span>
+      <div ng-click="conway.randomize()" class="glyphicon glyphicon-th control">
+        <span class="control-label">Randomize</span>
+      </div>
     </div>
   </div>
 
   <div class="stats">
-    <p>Generations: {{ generations }} || Alive Cells: {{ aliveCells }}</p>
+    <p>Generations: {{generations}} || Alive Cells: {{ aliveCells }}</p>
   </div>
 
   <div class="canvas-container">

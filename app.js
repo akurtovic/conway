@@ -1,4 +1,5 @@
 var app = angular.module('conway', []);
+
 app.controller('mainCtrl', ['$scope', function ($scope) {
 
   $scope.speed = 100;
@@ -80,7 +81,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
     for (var xPoint = 0, yPoint = 0, index = 0; index < numberOfCells; index++) {
       var thisShape = new Cell(xPoint, yPoint, cellInnerDimension, cellInnerDimension, index);
       if (randomize) {
-        var randNum = Math.floor(Math.random()*15);
+        var randNum = Math.floor(Math.random()*17);
         if (randNum <= 2) {
           thisShape.alive = true;
           thisShape.fillColor = aliveColor;

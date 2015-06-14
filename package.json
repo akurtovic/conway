@@ -1,0 +1,19 @@
+{
+  "name": "conway",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akurtovic/conway.git"
+  },
+  "author": "Amir Kurtovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akurtovic/conway/issues"
+  },
+  "homepage": "https://github.com/akurtovic/conway"
+}
