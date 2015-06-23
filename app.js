@@ -2,190 +2,225 @@ var app = angular.module('conway', []);
 
 app.controller('mainCtrl', ['$scope', function ($scope) {
 
-  $scope.speed = 100;
+  $scope.speed = 200;
   $scope.cellSize = 15;
   $scope.aliveCells = 0;
   $scope.generations = 0;
   $scope.status = 'paused';
 
-  // TODO: Add ability to change refresh speed
-  $scope.changeSpeed = function() {
-    $scope.speed += 100;
-  };
-
   $scope.conway = (function () {
-  // Initialize main private variables 
-  var grid = [];
-  var canvas = document.getElementById('canvas'),
-      canvasLeft = canvas.offsetLeft,
-      canvasTop = canvas.offsetTop;
+    // Initialize main private variables 
+    var deadColor = '#9899A6';
+    var aliveColor = '#5465E5';
+    var loop,
+      grid,
+      canvas,
+      ctx,
+      canvasLeft,
+      canvasTop,
+      gridWidth,
+      cellsPerRow,
+      numberOfCells,
+      cellInnerDimension;
 
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
-  }
-  var deadColor = '#9899A6';
-  var aliveColor = '#5465E5';
-  var loop;
+    canvas = document.getElementById('canvas');
+    canvasLeft = canvas.offsetLeft;
+    canvasTop = canvas.offsetTop;
 
-  // Grid and Cell Dimensions
-  var gridWidth = 1200;
-  var cellsPerRow = gridWidth / $scope.cellSize;
-  var numberOfCells = Math.pow(cellsPerRow, 2);
-  var cellInnerDimension = $scope.cellSize-1;
+    if (canvas.getContext) {
+      ctx = canvas.getContext('2d');
+    }
 
-  // Constructor function for cells
-  function Cell(left, top, width, height, index) {
-    this.left = left;
-    this.top = top;
-    this.width = width;
-    this.height = height;
-    this.index = index;
-    this.fillColor = deadColor;
-    this.alive = false;
-    this.aliveNeighbors = 0;
-  }
+    // TODO: Have to delete and recreate canvas to truly be able
+    // to toggle the cell sizes
+    function initCanvas() {
+      grid = [];
+      gridWidth = 80 * $scope.cellSize;
+      cellsPerRow = gridWidth / $scope.cellSize;
+      numberOfCells = Math.pow(cellsPerRow, 2);
+      cellInnerDimension = $scope.cellSize-1;
+    }
 
-  function Draw(shape) {
-    ctx.fillStyle = shape.fillColor;
-    ctx.fillRect(shape.left, shape.top, shape.width, shape.height);
-  }
+    // Constructor function for cells
+    function Cell(left, top, width, height, index) {
+      this.left = left;
+      this.top = top;
+      this.width = width;
+      this.height = height;
+      this.index = index;
+      this.fillColor = deadColor;
+      this.alive = false;
+      this.aliveNeighbors = 0;
+    }
 
-  function run() {
-    $scope.status === 'paused' ? loop = window.setInterval(redrawBoard, $scope.speed) : null;
-    $scope.status = 'running';
-  }
+    function Draw(shape) {
+      ctx.fillStyle = shape.fillColor;
+      ctx.fillRect(shape.left, shape.top, shape.width, shape.height);
+    }
 
-  function pause() {
-    clearInterval(loop);
-    $scope.status = 'paused';
-  }
+    function run() {
+      $scope.status === 'paused' ? loop = window.setInterval(redrawBoard, $scope.speed) : null;
+      $scope.status = 'running';
+    }
 
-  function reset() {
-    $scope.generations = 0;
-    $scope.aliveCells = 0;
-    pause();
-    initBoard();
-  }
+    function pause() {
+      clearInterval(loop);
+      $scope.status = 'paused';
+    }
 
-  function randomize() {
-    initBoard(true);
-  }
+    function reset() {
+      $scope.generations = 0;
+      $scope.aliveCells = 0;
+      pause();
+      initBoard();
+    }
 
-  function nextStep(){
-    pause();
-    window.setTimeout(redrawBoard, 300);
-  }
+    function randomize() {
+      initBoard(true);
+    }
 
-  function initBoard(randomize) {
-    grid = [];
-    for (var xPoint = 0, yPoint = 0, index = 0; index < numberOfCells; index++) {
-      var thisShape = new Cell(xPoint, yPoint, cellInnerDimension, cellInnerDimension, index);
-      if (randomize) {
-        var randNum = Math.floor(Math.random()*17);
-        if (randNum <= 2) {
-          thisShape.alive = true;
-          thisShape.fillColor = aliveColor;
+    function nextStep(){
+      pause();
+      window.setTimeout(redrawBoard, 300);
+    }
+
+    function speedUp() {
+      if ($scope.speed > 50) {
+        $scope.speed -= 50;
+        if ($scope.status === 'running') {
+          pause();
+          run();
         }
       }
-      grid.push(thisShape);
-      xPoint += $scope.cellSize;
-      if (xPoint % gridWidth === 0) {
-        xPoint = 0;
-        yPoint += $scope.cellSize;
-      }
-      Draw(grid[index]);
     }
-  }
 
-  function calcNeighbors() {
-    var o = cellsPerRow;
-    var neighbors = [-(o+1),-o,-(o-1),-1,1,o-1,o,o+1];
-    var aliveNeighbors = 0;
-    grid.forEach(function(element) {
-      element.aliveNeighbors = 0;
-      neighbors.forEach(function(x) {
-        var index = element.index + x;
-        if (index > -1){
-          if (grid[index] && grid[index].alive === true){
-            element.aliveNeighbors += 1;
+    function slowDown() {
+      if ($scope.speed < 800) {
+        $scope.speed += 50;
+        if ($scope.status === 'running') {
+          pause();
+          run();
+        }
+      }
+    }
+
+    function changeCellSize() {
+      ($scope.cellSize === 10) ? $scope.cellSize += 10 : $scope.cellSize -= 10;
+      initBoard();
+    }
+
+    function initBoard(randomize) {
+      initCanvas();
+      for (var xPoint = 0, yPoint = 0, index = 0; index < numberOfCells; index++) {
+        var thisShape = new Cell(xPoint, yPoint, cellInnerDimension, cellInnerDimension, index);
+        if (randomize) {
+          var randNum = Math.floor(Math.random()*17);
+          if (randNum <= 2) {
+            thisShape.alive = true;
+            thisShape.fillColor = aliveColor;
           }
         }
-      });
-    })
-  }
-
-  function birth(element) {
-    $scope.aliveCells += 1;
-    element.alive = true;
-    element.fillColor = aliveColor;
-  }
-
-  function death(element) {
-    $scope.aliveCells -= 1;
-    element.alive = false;
-    element.fillColor = deadColor;
-  }
-
-  function redrawBoard(board) {
-    calcNeighbors();
-    $scope.aliveCells = 0;
-    $scope.generations += 1;
-    for (var k = 0; k < numberOfCells; k++) {
-      var element = grid[k];
-      var aliveNeighbors = element.aliveNeighbors;
-
-      if (element && element.alive){
-        if (element.aliveNeighbors < 2) {
-          death(element);
-        } else if (element.aliveNeighbors > 3) {
-          death(element);
-        } else if (element.aliveNeighbors == 2 || element.aliveNeighbors == 3) {
-          birth(element);
+        grid.push(thisShape);
+        xPoint += $scope.cellSize;
+        if (xPoint % gridWidth === 0) {
+          xPoint = 0;
+          yPoint += $scope.cellSize;
         }
-      } else {
-        if (element.aliveNeighbors == 3) {
-          birth(element);
-        }
+        Draw(grid[index]);
       }
     }
 
-    $scope.$apply();
-
-    grid.forEach(function(cell) {
-      Draw(cell);
-    })
-  }
-
-  canvas.addEventListener('click', function(event) {
-      var x = event.pageX - canvasLeft,
-          y = event.pageY - canvasTop;
-
+    function calcNeighbors() {
+      var o = cellsPerRow;
+      var neighbors = [-(o+1),-o,-(o-1),-1,1,o-1,o,o+1];
+      var aliveNeighbors = 0;
       grid.forEach(function(element) {
-          if (y > element.top && y < element.top + element.height 
-              && x > element.left && x < element.left + element.width) {
-              if (element.fillColor === deadColor){
-                element.fillColor = aliveColor;
-                element.alive = true;
-                Draw(element);
-              } else {
-                element.fillColor = deadColor;
-                element.alive = false;
-                Draw(element);
-              }
+        element.aliveNeighbors = 0;
+        neighbors.forEach(function(x) {
+          var index = element.index + x;
+          if (index > -1){
+            if (grid[index] && grid[index].alive === true){
+              element.aliveNeighbors += 1;
+            }
           }
-      });
+        });
+      })
+    }
 
-  }, false);
+    function birth(element) {
+      $scope.aliveCells += 1;
+      element.alive = true;
+      element.fillColor = aliveColor;
+    }
 
-  return {
-    run: run,
-    pause: pause,
-    nextStep: nextStep,
-    reset: reset,
-    randomize: randomize,
-    initBoard: initBoard
-  };
+    function death(element) {
+      $scope.aliveCells -= 1;
+      element.alive = false;
+      element.fillColor = deadColor;
+    }
+
+    function redrawBoard(board) {
+      calcNeighbors();
+      $scope.aliveCells = 0;
+      $scope.generations += 1;
+      for (var k = 0; k < numberOfCells; k++) {
+        var element = grid[k];
+        var aliveNeighbors = element.aliveNeighbors;
+
+        if (element && element.alive){
+          if (element.aliveNeighbors < 2) {
+            death(element);
+          } else if (element.aliveNeighbors > 3) {
+            death(element);
+          } else if (element.aliveNeighbors == 2 || element.aliveNeighbors == 3) {
+            birth(element);
+          }
+        } else {
+          if (element.aliveNeighbors == 3) {
+            birth(element);
+          }
+        }
+      }
+
+      $scope.$apply();
+
+      grid.forEach(function(cell) {
+        Draw(cell);
+      })
+    }
+
+    canvas.addEventListener('click', function(event) {
+        var x = event.pageX - canvasLeft,
+            y = event.pageY - canvasTop;
+
+        grid.forEach(function(element) {
+            if (y > element.top && y < element.top + element.height 
+                && x > element.left && x < element.left + element.width) {
+                if (element.fillColor === deadColor){
+                  element.fillColor = aliveColor;
+                  element.alive = true;
+                  Draw(element);
+                } else {
+                  element.fillColor = deadColor;
+                  element.alive = false;
+                  Draw(element);
+                }
+            }
+        });
+
+    }, false);
+
+    return {
+      run: run,
+      pause: pause,
+      nextStep: nextStep,
+      reset: reset,
+      randomize: randomize,
+      initBoard: initBoard,
+      speedUp: speedUp,
+      slowDown: slowDown,
+      changeCellSize: changeCellSize
+    };
 })();
   $scope.conway.initBoard();
-  
 }])

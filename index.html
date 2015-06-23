@@ -44,10 +44,27 @@
         <span class="control-label">Randomize</span>
       </div>
     </div>
+    <div class="control-container expand">
+      <div ng-click="conway.speedUp()" class="glyphicon glyphicon-fast-forward control">
+        <span class="control-label">Speed Up</span>
+      </div>
+    </div>
+    <div class="control-container expand">
+      <div ng-click="conway.slowDown()" class="glyphicon glyphicon-fast-backward control">
+        <span class="control-label">Slow Down</span>
+      </div>
+    </div>
+    <!--
+    <div class="control-container expand">
+      <div ng-click="conway.changeCellSize()" class="glyphicon glyphicon-fast-backward control">
+        <span class="control-label">Slow Down</span>
+      </div>
+    </div>
+    -->
   </div>
 
   <div class="stats">
-    <p>Generations: {{generations}} || Alive Cells: {{ aliveCells }}</p>
+    <p>Generations: {{generations}} || Alive Cells: {{ aliveCells }} || Speed: {{ speed }}ms</p>
   </div>
 
   <div class="canvas-container">
