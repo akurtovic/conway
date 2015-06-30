@@ -23,7 +23,7 @@
 }
 
 .controls {
-  width: 120px;
+  width: 100px;
   position: fixed;
   overflow: visible;
   z-index: 1000;
