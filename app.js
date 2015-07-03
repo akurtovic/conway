@@ -6,7 +6,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   $scope.speed = 200;
 
   // Initialize size of each cell at 15 pixels
-  $scope.cellSize = 15;
+  $scope.cellSize = 13;
 
   // Initialize number of alive cells and generations
   $scope.aliveCells = 0;
@@ -15,8 +15,10 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
   // Start the board in paused state
   $scope.status = 'paused';
 
-  // Main module that contains all of the logic
-  // Revealing module - public methods are exposed in return
+  /*
+  Revealing module containing all of the logic
+  Public methods are exposed in return
+  */
   $scope.conway = (function () {
 
     // Set colors for dead and alive cells
@@ -33,7 +35,8 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
       gridWidth,
       cellsPerRow,
       numberOfCells,
-      cellInnerDimension;
+      cellInnerDimension,
+      aliveCells = 0;
 
     // Initialize canvas
     canvas = document.getElementById('canvas');
@@ -126,12 +129,6 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
       }
     }
 
-    // TODO: Still not fully functional
-    function changeCellSize() {
-      ($scope.cellSize === 10) ? $scope.cellSize += 10 : $scope.cellSize -= 10;
-      initBoard();
-    }
-
     // Initialize the game board, used on initial load and reset
     function initBoard(randomize) {
       initCanvas();
@@ -145,6 +142,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
           var randNum = Math.floor(Math.random()*17);
           if (randNum <= 2) {
             thisShape.alive = true;
+            $scope.aliveCells += 1;
             thisShape.fillColor = aliveColor;
           }
         }
@@ -193,22 +191,22 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
 
     // Set a cell to alive
     function birth(cell) {
-      $scope.aliveCells += 1;
       cell.alive = true;
       cell.fillColor = aliveColor;
+      //$scope.aliveCells += 1;
     }
 
     // Set a cell to dead
     function death(cell) {
-      $scope.aliveCells -= 1;
       cell.alive = false;
       cell.fillColor = deadColor;
+      //$scope.aliveCells -= 1;
     }
 
     // redrawBoard is called on each interval or setTimeout
     function redrawBoard(board) {
       calcNeighbors();
-      $scope.aliveCells = 0;
+      aliveCells = 0;
       $scope.generations += 1;
       for (var k = 0; k < numberOfCells; k++) {
         var element = grid[k];
@@ -229,13 +227,17 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         }
       }
 
-      $scope.$apply();
-
       grid.forEach(function(cell) {
+        if (cell.alive) {
+          aliveCells += 1;
+        }
         Draw(cell);
-      })
+      });
+      $scope.aliveCells = aliveCells;
+      $scope.$apply();
     }
 
+    // Click handler to turn cells dead/alive
     canvas.addEventListener('click', function(event) {
         var x = event.pageX - canvasLeft,
             y = event.pageY - canvasTop;
@@ -246,10 +248,14 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
                 if (element.fillColor === deadColor){
                   element.fillColor = aliveColor;
                   element.alive = true;
+                  $scope.aliveCells += 1;
+                  $scope.$apply();
                   Draw(element);
                 } else {
                   element.fillColor = deadColor;
                   element.alive = false;
+                  $scope.aliveCells -= 1;
+                  $scope.$apply();
                   Draw(element);
                 }
             }
@@ -266,8 +272,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
       randomize: randomize,
       initBoard: initBoard,
       speedUp: speedUp,
-      slowDown: slowDown,
-      changeCellSize: changeCellSize
+      slowDown: slowDown
     };
 })();
   

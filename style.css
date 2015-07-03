@@ -74,8 +74,17 @@ body {
 }
 
 .stats {
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
   margin-top: 20px;
   margin-left: 100px;
+}
+
+.stats span {
+  font-size: 14px;
+  color: green;
+  margin-right: 20px;
+  margin-left: 5px;
 }
 
 .canvas-container {

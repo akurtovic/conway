@@ -54,21 +54,14 @@
         <span class="control-label">Slow Down</span>
       </div>
     </div>
-    <!--
-    <div class="control-container expand">
-      <div ng-click="conway.changeCellSize()" class="glyphicon glyphicon-fast-backward control">
-        <span class="control-label">Slow Down</span>
-      </div>
-    </div>
-    -->
   </div>
 
   <div class="stats">
-    <p>Generations: {{generations}} || Alive Cells: {{ aliveCells }} || Speed: {{ speed }}ms</p>
+    <p>Generations<span>{{generations}}</span> Alive Cells<span>{{ aliveCells }}</span> Speed<span>{{ speed }}ms</span></p>
   </div>
 
   <div class="canvas-container">
-    <canvas id="canvas"  width="1200" height="1200"></canvas>
+    <canvas id="canvas"  width="1080" height="1080"></canvas>
   </div>
 
 </div>
