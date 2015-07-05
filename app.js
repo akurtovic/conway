@@ -10,6 +10,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
 
   // Initialize number of alive cells and generations
   $scope.aliveCells = 0;
+  $scope.alivePercentage = 0;
   $scope.generations = 0;
 
   // Start the board in paused state
@@ -92,6 +93,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
     function reset() {
       $scope.generations = 0;
       $scope.aliveCells = 0;
+      $scope.alivePercentage = 0;
       pause();
       initBoard();
     }
@@ -143,6 +145,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
           if (randNum <= 2) {
             thisShape.alive = true;
             $scope.aliveCells += 1;
+            $scope.alivePercentage = ($scope.aliveCells/6400)*100;
             thisShape.fillColor = aliveColor;
           }
         }
@@ -193,14 +196,12 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
     function birth(cell) {
       cell.alive = true;
       cell.fillColor = aliveColor;
-      //$scope.aliveCells += 1;
     }
 
     // Set a cell to dead
     function death(cell) {
       cell.alive = false;
       cell.fillColor = deadColor;
-      //$scope.aliveCells -= 1;
     }
 
     // redrawBoard is called on each interval or setTimeout
@@ -234,6 +235,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         Draw(cell);
       });
       $scope.aliveCells = aliveCells;
+      $scope.alivePercentage = ($scope.aliveCells/6400)*100;
       $scope.$apply();
     }
 
@@ -259,6 +261,7 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
                   Draw(element);
                 }
             }
+            $scope.alivePercentage = ($scope.aliveCells/6400)*100;
         });
 
     }, false);
