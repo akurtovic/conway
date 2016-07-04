@@ -141,6 +141,8 @@ app.controller('mainCtrl', ['$scope', function ($scope) {
         var thisShape = new Cell(xPoint, yPoint, cellInnerDimension, cellInnerDimension, index);
         // If randomize flag is true, randomly assign cells to alive state
         if (randomize) {
+          $scope.aliveCells = 0;
+          $scope.alivePercentage = 0;
           var randNum = Math.floor(Math.random()*17);
           if (randNum <= 2) {
             thisShape.alive = true;
